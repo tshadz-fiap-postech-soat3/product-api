@@ -1,17 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProductsController } from '../../../src/external/driver/products.api';
-import { ProductsService } from '../../../src/@core/products/controller/products.controller';
+import { ProductsApi } from '../../../src/external/driver/products.api';
 import { IProductsRepository } from '../../../src/@core/products/repositories/iproduct.repository';
 import { PrismaProductsRepository } from '../../../src/@core/products/repositories/prisma-products-repository';
 import { PrismaService } from '../../../src/external/driven/infra/database/prisma.service';
+import { ProductsService } from '../../../src/@core/products/products.service';
+import { ProductsController } from '../../../src/@core/products/controller/products.controller';
+import { IProductsService } from '../../../src/@core/products/iproducts.service';
 
-describe('ProductsController', () => {
-  let controller: ProductsController;
+describe('ProductsApi', () => {
+  let controller: ProductsApi;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [ProductsController],
+      controllers: [ProductsApi],
       providers: [
+        ProductsController,
+        {
+          provide: IProductsService,
+          useClass: ProductsService,
+        },
         ProductsService,
         {
           provide: IProductsRepository,
@@ -21,7 +28,7 @@ describe('ProductsController', () => {
       ],
     }).compile();
 
-    controller = module.get<ProductsController>(ProductsController);
+    controller = module.get<ProductsApi>(ProductsApi);
   });
 
   it('should be defined', () => {

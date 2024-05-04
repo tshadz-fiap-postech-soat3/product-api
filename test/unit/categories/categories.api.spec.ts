@@ -1,18 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CategoriesController } from '../../../src/external/driver/categories.api';
+import { CategoriesApi } from '../../../src/external/driver/categories.api';
 import { CategoriesService } from '../../../src/@core/category/categories.service';
 import { PrismaService } from '../../../src/external/driven/infra/database/prisma.service';
 import { ICategoriesRepository } from '../../../src/@core/category/repositories/icategory.repository';
 import { PrismaCategoriesRepository } from '../../../src/@core/category/repositories/prisma-categories-repository';
+import { CategoriesController } from '../../../src/@core/category/controller/categories.controller';
+import { ICategoriesService } from '../../../src/@core/category/icategories.service';
 
-describe('CategoriesController', () => {
-  let controller: CategoriesController;
+describe('CategoriesApi', () => {
+  let controller: CategoriesApi;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [CategoriesController],
+      controllers: [CategoriesApi],
       providers: [
-        CategoriesService,
+        CategoriesController,
+        {
+          provide: ICategoriesService,
+          useClass: CategoriesService,
+        },
         {
           provide: ICategoriesRepository,
           useClass: PrismaCategoriesRepository,
@@ -21,7 +27,7 @@ describe('CategoriesController', () => {
       ],
     }).compile();
 
-    controller = module.get<CategoriesController>(CategoriesController);
+    controller = module.get<CategoriesApi>(CategoriesApi);
   });
 
   it('should be defined', () => {
