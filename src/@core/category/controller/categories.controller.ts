@@ -18,7 +18,7 @@ export class CategoriesController implements ICategoriesController {
     const product = await this.categoriesService.findOne(
       createCategoryDto.name,
     );
-    if (product.status !== ResultStatus.ERROR) {
+    if (product?.status === ResultStatus.ERROR) {
       return new ApplicationResult(
         ApplicationResultEvents.ERROR,
         'Category already exists',

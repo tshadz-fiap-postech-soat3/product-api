@@ -12,7 +12,7 @@ export abstract class IProductsController {
     id: string,
     product: UpdateProductDto,
   ): Promise<Result<ProductEntity>>;
-  public abstract findOne(name: string): Promise<Result<ProductEntity>>;
+  public abstract findOne(name: string): Promise<Result<ProductEntity> | null>;
   public abstract findAll(): Promise<Result<ProductEntity[]>>;
   public abstract remove(id: string): Promise<void>;
 }

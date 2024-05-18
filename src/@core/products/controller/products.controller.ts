@@ -16,13 +16,15 @@ export class ProductsController implements IProductsController {
 
   async create(createProductDto: CreateProductDto) {
     const product = await this.productsService.findOne(createProductDto.name);
-    if (product.status !== ResultStatus.ERROR) {
+
+    if (product?.status === ResultStatus.ERROR) {
       return new ApplicationResult(
         ApplicationResultEvents.ERROR,
         'Product already exists',
       );
     }
     const createdProduct = await this.productsService.create(createProductDto);
+
     if (createdProduct.status === ResultStatus.ERROR) {
       return new ApplicationResult(
         ApplicationResultEvents.ERROR,

@@ -3,11 +3,13 @@ import { UpdateProductDto } from '../entities/update-product.dto';
 import { ProductEntity } from '../entities/product';
 
 export abstract class IProductsRepository {
-  public abstract insert(product: CreateProductDto): Promise<ProductEntity>;
+  public abstract insert(
+    product: CreateProductDto,
+  ): Promise<ProductEntity | null>;
   public abstract update(
     id: string,
     product: UpdateProductDto,
-  ): Promise<ProductEntity>;
+  ): Promise<ProductEntity | null>;
   public abstract findByCategory(
     category: string,
   ): Promise<ProductEntity | null>;

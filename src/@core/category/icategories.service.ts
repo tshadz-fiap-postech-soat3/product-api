@@ -11,7 +11,9 @@ export abstract class ICategoriesService {
     id: string,
     category: UpdateCategoryDto,
   ): Promise<Result<CategoryEntity>>;
-  public abstract findOne(category: string): Promise<Result<CategoryEntity>>;
+  public abstract findOne(
+    category: string,
+  ): Promise<Result<CategoryEntity> | null>;
   public abstract findAll(): Promise<Result<CategoryEntity[]>>;
   public abstract remove(id: string): Promise<void>;
 }

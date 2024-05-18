@@ -11,7 +11,9 @@ export abstract class IProductsService {
     id: string,
     product: UpdateProductDto,
   ): Promise<Result<ProductEntity>>;
-  public abstract findOne(category: string): Promise<Result<ProductEntity>>;
+  public abstract findOne(
+    category: string,
+  ): Promise<Result<ProductEntity> | null>;
   public abstract findByName(name: string): Promise<Result<ProductEntity>>;
   public abstract findAll(): Promise<Result<ProductEntity[]>>;
   public abstract remove(id: string): Promise<void>;

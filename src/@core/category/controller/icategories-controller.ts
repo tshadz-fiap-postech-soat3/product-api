@@ -1,4 +1,3 @@
-
 import { ApplicationResult } from '../../application/applicationResult/application-result';
 import { Result } from '../../application/result/result';
 import { CategoryEntity } from '../entitites/category';
@@ -13,7 +12,7 @@ export abstract class ICategoriesController {
     id: string,
     product: UpdateCategoryDto,
   ): Promise<Result<CategoryEntity>>;
-  public abstract findOne(name: string): Promise<Result<CategoryEntity>>;
+  public abstract findOne(name: string): Promise<Result<CategoryEntity> | null>;
   public abstract findAll(): Promise<Result<CategoryEntity[]>>;
   public abstract remove(id: string): Promise<void>;
 }
