@@ -36,7 +36,8 @@ describe('CategoriesApi', () => {
     }).compile();
 
     categoriesApi = module.get<CategoriesApi>(CategoriesApi);
-    categoriesController = module.get<CategoriesController>(CategoriesApi);
+    categoriesController =
+      module.get<CategoriesController>(CategoriesController);
   });
 
   it('should be defined', () => {
@@ -44,7 +45,7 @@ describe('CategoriesApi', () => {
   });
 
   describe('create', () => {
-    it('should create a new customer', async () => {
+    it('should create a new category', async () => {
       const createCustomerDto = createCategoryDtoFixture();
       const result = updateCategoryRepositoryFixture();
       jest

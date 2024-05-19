@@ -8,7 +8,7 @@ import { ProductsController } from '../../../src/@core/products/controller/produ
 import { IProductsService } from '../../../src/@core/products/iproducts.service';
 
 describe('ProductsApi', () => {
-  let controller: ProductsApi;
+  let productsApi: ProductsApi;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -28,10 +28,10 @@ describe('ProductsApi', () => {
       ],
     }).compile();
 
-    controller = module.get<ProductsApi>(ProductsApi);
+    productsApi = module.get<ProductsApi>(ProductsApi);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(productsApi).toBeDefined();
   });
 });
