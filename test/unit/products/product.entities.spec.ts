@@ -1,4 +1,4 @@
-import { ProductEntity } from '../entities/product';
+import { ProductEntity } from '../../../src/@core/products/entities/product';
 
 describe('ProductEntity', () => {
   it('should create a new instance of ProductEntity', () => {

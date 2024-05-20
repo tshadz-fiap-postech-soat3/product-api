@@ -1,4 +1,4 @@
-import { CategoryEntity } from './category';
+import { CategoryEntity } from '../../../src/@core/category/entitites/category';
 
 describe('CategoryEntity', () => {
   let category: CategoryEntity;

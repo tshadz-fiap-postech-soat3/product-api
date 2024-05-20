@@ -57,78 +57,106 @@ describe('CategoriesService', () => {
     });
   });
 
-  describe('find all categories', () => {
-    it('should return all categories', async () => {
-      const result = [
-        {
-          id: 'cat-1',
-          name: 'category 1',
-          createdAtDate: new Date(),
-          updatedAtDate: new Date(),
-        },
-        {
-          id: 'cat-2',
-          name: 'category 2',
-          createdAtDate: new Date(),
-          updatedAtDate: new Date(),
-        },
-      ];
+  describe('update', () => {
+    it('should update a category', async () => {
+      const id = 'cat-50';
+      const updateCategoryDto = createCategoryDtoFixture();
+      const updatedProduct = { ...updateCategoryDto, id };
 
-      jest.spyOn(categoriesRepository, 'findAll').mockResolvedValue(result);
+      jest
+        .spyOn(categoriesRepository, 'update')
+        .mockResolvedValue(updatedProduct);
 
-      const response = await service.findAll();
+      const result = await service.update(id, updateCategoryDto);
 
-      expect(response).toEqual(new ResultSuccess(result));
-      expect(categoriesRepository.findAll).toHaveBeenCalled();
-    });
-    it('should return an error when no categories exist', async () => {
-      jest.spyOn(categoriesRepository, 'findAll').mockImplementation(undefined);
-
-      const response = await service.findAll();
-
-      expect(response).toEqual(new ResultError('Category not exist'));
-      expect(categoriesRepository.findAll).toHaveBeenCalled();
+      expect(result).toEqual(new ResultSuccess(updatedProduct));
+      expect(categoriesRepository.update).toHaveBeenCalledWith(
+        id,
+        updateCategoryDto,
+      );
     });
 
-    describe('find one category', () => {
-      it('should return a category by ID', async () => {
-        const categoryId = 'cat-1';
-        const result = {
-          id: categoryId,
-          name: 'category 1',
-          createdAtDate: new Date(),
-          updatedAtDate: new Date(),
-        };
+    describe('find all categories', () => {
+      it('should return all categories', async () => {
+        const result = [
+          {
+            id: 'cat-1',
+            name: 'category 1',
+            createdAtDate: new Date(),
+            updatedAtDate: new Date(),
+          },
+          {
+            id: 'cat-2',
+            name: 'category 2',
+            createdAtDate: new Date(),
+            updatedAtDate: new Date(),
+          },
+        ];
 
-        jest.spyOn(categoriesRepository, 'findById').mockResolvedValue(result);
+        jest.spyOn(categoriesRepository, 'findAll').mockResolvedValue(result);
 
-        const response = await service.findOne(categoryId);
+        const response = await service.findAll();
 
         expect(response).toEqual(new ResultSuccess(result));
-        expect(categoriesRepository.findById).toHaveBeenCalledWith(categoryId);
+        expect(categoriesRepository.findAll).toHaveBeenCalled();
       });
+      it('should return an error when no categories exist', async () => {
+        jest
+          .spyOn(categoriesRepository, 'findAll')
+          .mockImplementation(undefined);
 
-      it('should return an error when the category does not exist', async () => {
-        const categoryId = 'cat-1';
-
-        const response = await service.findOne(categoryId);
+        const response = await service.findAll();
 
         expect(response).toEqual(new ResultError('Category not exist'));
-        expect(categoriesRepository.findById).toHaveBeenCalledWith(categoryId);
+        expect(categoriesRepository.findAll).toHaveBeenCalled();
+      });
+
+      describe('find one category', () => {
+        it('should return a category by ID', async () => {
+          const categoryId = 'cat-1';
+          const result = {
+            id: categoryId,
+            name: 'category 1',
+            createdAtDate: new Date(),
+            updatedAtDate: new Date(),
+          };
+
+          jest
+            .spyOn(categoriesRepository, 'findById')
+            .mockResolvedValue(result);
+
+          const response = await service.findOne(categoryId);
+
+          expect(response).toEqual(new ResultSuccess(result));
+          expect(categoriesRepository.findById).toHaveBeenCalledWith(
+            categoryId,
+          );
+        });
+
+        it('should return an error when the category does not exist', async () => {
+          const categoryId = 'cat-1';
+
+          const response = await service.findOne(categoryId);
+
+          expect(response).toEqual(new ResultError('Category not exist'));
+          expect(categoriesRepository.findById).toHaveBeenCalledWith(
+            categoryId,
+          );
+        });
       });
     });
-  });
 
-  describe('remove category', () => {
-    it('should remove a category', async () => {
-      const categoryId = 'cat-1';
+    describe('remove category', () => {
+      it('should remove a category', async () => {
+        const categoryId = 'cat-1';
 
-      jest.spyOn(categoriesRepository, 'delete').mockResolvedValue();
+        jest.spyOn(categoriesRepository, 'delete').mockResolvedValue();
 
-      const response = await service.remove(categoryId);
+        const response = await service.remove(categoryId);
 
-      expect(response).toBe(undefined);
-      expect(categoriesRepository.delete).toHaveBeenCalledWith(categoryId);
+        expect(response).toBe(undefined);
+        expect(categoriesRepository.delete).toHaveBeenCalledWith(categoryId);
+      });
     });
   });
 });
