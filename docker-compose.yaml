@@ -1,0 +1,54 @@
+version: '3.7'
+
+networks:
+  restaurant_network:
+    driver: bridge
+    name: restaurant_network
+
+services:
+  app:
+    build:
+      context: '.'
+      dockerfile: Dockerfile
+    container_name: fast-food
+    env_file:
+      - .env
+    ports:
+      - '8080:8080'
+    restart: 'always'
+    tty: true
+    volumes:
+      - ./src:/src
+      - ./test:/test
+      - ./package.json:/app/package.json
+    depends_on:
+      - db
+    networks:
+      - restaurant_network
+    environment:
+      - DATABASE_URL=mysql://$MYSQL_ROOT_USER:$MYSQL_ROOT_PASSWORD@$MYSQL_HOST:$MYSQL_PORT/$MYSQL_DATABASE
+
+  db:
+    image: mysql:latest
+    container_name: fast-food-db
+    restart: always
+    tty: true
+    env_file:
+      - .env
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 3s
+      retries: 10
+    ports:
+      - '3306:3306'
+    volumes:
+      - .docker/dbdata/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_HOST: ${MYSQL_HOST}
+    networks:
+      - restaurant_network
