@@ -10,7 +10,7 @@ services:
     build:
       context: '.'
       dockerfile: Dockerfile
-    container_name: fast-food
+    container_name: product-api
     env_file:
       - .env
     ports:
@@ -30,7 +30,7 @@ services:
 
   db:
     image: mysql:latest
-    container_name: fast-food-db
+    container_name: product-db
     restart: always
     tty: true
     env_file:

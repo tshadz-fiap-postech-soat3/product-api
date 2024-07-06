@@ -5,9 +5,19 @@
     "@/(.*)": "<rootDir>/src/$1",
     "@test-unit/(.*)": "<rootDir>/test/unit/$1"
   },
-  "testEnvironment": "node",
   "testRegex": ".*\\.spec\\.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
-  }
+  },
+  "coverageDirectory": "coverage",
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/src/main\\.ts$",
+      "\\.module\\.ts$",
+      "/test/", 
+      "<rootDir>/dist/", 
+      "prisma", 
+      "<rootDir>/src/@core/application/",
+      ".eslintrc.js"
+    ]
 }
