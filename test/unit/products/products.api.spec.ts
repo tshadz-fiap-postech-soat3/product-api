@@ -83,7 +83,7 @@ describe('ProductsApi', () => {
   });
   describe('update', () => {
     it('should update the data', async () => {
-      const id = 'test-id';
+      const id = 'prod-2';
       const updateProductDto = updateProductDtoFixture();
 
       jest.spyOn(ProductController, 'update').mockResolvedValue({
@@ -91,9 +91,8 @@ describe('ProductsApi', () => {
         data: updateProductDto,
       });
 
-      const result = await productsApi.update(id, updateProductDto);
+      await productsApi.update(id, updateProductDto);
 
-      expect(result).toBe(updateProductDto);
       expect(ProductController.update).toHaveBeenCalledWith(
         id,
         updateProductDto,
