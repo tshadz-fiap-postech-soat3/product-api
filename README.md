@@ -104,4 +104,3 @@ $  kubectl port-forward deployment/fast-food-deployment 8080:8080
 3. Post Order (customer id é opcional)
 4. Post Order Item (usando os IDs dos produtos e do pedido que foi criado)
 5. Patch Payment (o pagamento será automaticamente realizado)
-
