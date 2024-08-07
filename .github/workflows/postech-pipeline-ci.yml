@@ -1,0 +1,38 @@
+name: Pipeline Workflow
+
+on:
+  push:
+    branches:
+      - dev-001-fiap
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      trigger:
+        description: 'Trigger for the specific pipeline'
+        required: true
+        default: 'none'
+
+jobs:
+  call-ci-pipeline-workflow:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev-001-fiap' && github.event.inputs.trigger != 'devsecops' || github.event_name == 'pull_request' && github.base_ref == 'main' && github.event.inputs.trigger != 'devsecops' }}
+    uses: tshadz-fiap-postech-soat3/ci-pipeline/.github/workflows/ci-pipeline.yml@dev-fiap-001
+    secrets: inherit
+
+  trigger-plan-database-deployment:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.trigger == 'apply-database' && github.event.inputs.trigger != 'devsecops'}}
+    uses: tshadz-fiap-postech-soat3/terraform-database/.github/workflows/terraform-plan-pipeline-ci.yml@main
+    secrets: inherit
+
+  trigger-apply-database-deployment:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.trigger == 'apply-database' && github.event.inputs.trigger != 'devsecops' }}
+    needs: trigger-plan-database-deployment
+    uses: tshadz-fiap-postech-soat3/terraform-database/.github/workflows/terraform-apply-pipeline-ci.yml@main
+    secrets: inherit
+
+  devsecops:
+    name: DevSecOps-Pipeline - Security Tests
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.trigger == 'devsecops' }}
+    uses: tshadz-fiap-postech-soat3/devsecops-pipeline/.github/workflows/devsecops-pipeline.yml@main
+    secrets: inherit
