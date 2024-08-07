@@ -3,6 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaService } from './external/driven/infra/database/prisma.service';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
+import { Request, Response, NextFunction } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,7 +36,7 @@ async function bootstrap() {
   );
 
   // Adicionar o cabeçalho Permissions-Policy manualmente
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader(
       'Permissions-Policy',
       'fullscreen=(self), geolocation=(), microphone=(), camera=()',
